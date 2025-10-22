@@ -1,5 +1,6 @@
-import { TrendingUp, TrendingDown, Bot } from 'lucide-react'
+import { TrendingUp, TrendingDown, Bot, Cpu } from 'lucide-react'
 import Waveform from './Waveform'
+import PerformanceChart from './PerformanceChart'
 
 export default function AgentCard({ agent, isTopPerformer, refreshing }) {
   const isPositive = agent.pnl >= 0
@@ -9,22 +10,30 @@ export default function AgentCard({ agent, isTopPerformer, refreshing }) {
 
   return (
     <div className={`
-      relative p-4 sm:p-6 rounded-lg transition-all duration-300
-      ${isTopPerformer ? 'top-performer animate-pulse-gold' : 'card-glow'}
+      relative p-4 sm:p-6 rounded-lg transition-all duration-300 retro-scan
+      ${isTopPerformer ? 'top-performer pixel-glow' : 'card-glow'}
       ${refreshing ? 'animate-refresh-pulse' : ''}
     `}>
       {/* Top row: Agent info and PnL */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
-        <div className="flex items-center gap-3">
-          <Bot className="text-gold-400 flex-shrink-0" size={20} />
-          <h3 className="text-lg sm:text-xl font-semibold text-white font-mono">
-            {agent.name}
-          </h3>
-          {isTopPerformer && (
-            <span className="text-xs bg-gold-400 text-black px-2 py-1 rounded-full font-semibold">
-              TOP
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-3">
+            <Bot className="text-gold-400 flex-shrink-0" size={20} />
+            <h3 className="text-lg sm:text-xl font-semibold text-white font-mono">
+              {agent.name}
+            </h3>
+            {isTopPerformer && (
+              <span className="text-xs bg-gold-400 text-black px-2 py-1 rounded-full font-semibold pixel-text">
+                TOP
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 ml-8">
+            <Cpu size={14} className="text-gray-400" />
+            <span className="text-xs text-gray-400 font-mono">
+              {agent.model}
             </span>
-          )}
+          </div>
         </div>
         
         <div className="flex items-center gap-2">
@@ -53,8 +62,14 @@ export default function AgentCard({ agent, isTopPerformer, refreshing }) {
         </span>
       </div>
 
+      {/* Performance Chart */}
+      <PerformanceChart 
+        performanceHistory={agent.performanceHistory}
+        agentName={agent.name}
+      />
+
       {/* Reasoning with waveform */}
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-3 mt-4">
         <div className="mt-1 flex-shrink-0">
           <Waveform />
         </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import AgentCard from './components/AgentCard'
 import Footer from './components/Footer'
+import CryptoPricing from './components/CryptoPricing'
 import useAgentData from './hooks/useAgentData'
 
 export default function App() {
@@ -13,6 +14,10 @@ export default function App() {
         <Header />
         
         <main className="py-8">
+          {/* Real-time Crypto Pricing */}
+          <CryptoPricing />
+          
+          {/* Agent Performance Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {agents.map(agent => (
               <AgentCard
